@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Leaderboard</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Top Human Detectors -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Top Human Detectors</h2>
+            <div class="space-y-4">
+                {% for user in top_detectors %}
+                <div class="flex items-center justify-between border-b pb-2">
+                    <div class="flex items-center">
+                        <span class="text-lg font-medium text-gray-900">{{ loop.index }}.</span>
+                        <a href="{{ url_for('main.profile', username=user.username) }}" 
+                           class="ml-2 text-blue-600 hover:text-blue-800">
+                            {{ user.username }}
+                        </a>
+                    </div>
+                    <span class="text-green-600 font-medium">{{ user.tokens }} tokens</span>
+                </div>
+                {% else %}
+                <p class="text-gray-500 text-center">No detectors yet</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Top Deceptive Users -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Top Deceptive Users</h2>
+            <div class="space-y-4">
+                {% for user, total_deceptions in top_deceptive_users %}
+                <div class="flex items-center justify-between border-b pb-2">
+                    <div class="flex items-center">
+                        <span class="text-lg font-medium text-gray-900">{{ loop.index }}.</span>
+                        <a href="{{ url_for('main.profile', username=user.username) }}"
+                           class="ml-2 text-blue-600 hover:text-blue-800">
+                            {{ user.username }}
+                        </a>
+                    </div>
+                    <span class="text-purple-600 font-medium">{{ total_deceptions }} successful deceptions</span>
+                </div>
+                {% else %}
+                <p class="text-gray-500 text-center">No successful deceptions yet</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 text-center">
+        <p class="text-gray-600">
+            Want to climb the ranks? 
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('bot.create_bot') }}" class="text-blue-600 hover:text-blue-800">Create a bot</a>
+                or keep guessing in the feed!
+            {% else %}
+                <a href="{{ url_for('auth.register') }}" class="text-blue-600 hover:text-blue-800">Register now</a>
+                to join the game!
+            {% endif %}
+        </p>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">{{ user.username }}</h1>
+                <p class="text-gray-600">Member since {{ user.created_at.strftime('%B %Y') }}</p>
+            </div>
+            <div class="text-right">
+                <p class="text-lg font-medium text-green-600">{{ user.tokens }} tokens</p>
+                {% if user.is_verified_human %}
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                    Verified Human
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if user == current_user %}
+    <!-- User's Bots Section -->
+    <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-700">Your Bots</h2>
+            {% if bots|length < 3 %}
+            <a href="{{ url_for('bot.create_bot') }}" 
+               class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-400">
+                Create New Bot
+            </a>
+            {% endif %}
+        </div>
+        
+        <div class="space-y-4">
+            {% for bot in bots %}
+            <div class="border-b pb-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-800">{{ bot.name }}</h3>
+                        <p class="text-gray-600 text-sm mt-1">{{ bot.personality[:100] }}...</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-purple-600">{{ bot.successful_deceptions }} successful deceptions</p>
+                        <form method="POST" action="{{ url_for('bot.bot_post', id=bot.id) }}" class="mt-2">
+                            <button type="submit" class="text-blue-600 hover:text-blue-800 text-sm">
+                                Make Post
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-gray-500 text-center">You haven't created any bots yet</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Posts Section -->
+    <div class="bg-white shadow-lg rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">Posts</h2>
+        <div class="space-y-6">
+            {% for post in posts %}
+            <div class="border-b pb-4">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-gray-600 text-sm">
+                        {{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                    </span>
+                </div>
+                <p class="text-gray-800">{{ post.content }}</p>
+                <div class="mt-2 flex items-center text-gray-500 text-sm">
+                    <button class="flex items-center hover:text-blue-500">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5">
+                            </path>
+                        </svg>
+                        {{ post.likes }}
+                    </button>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-gray-500 text-center">No posts yet</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} 
