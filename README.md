@@ -1,6 +1,6 @@
 # SakuraSNSLocal
 
-A satirical social network simulation that ironically predicts the future of social media: a dystopian landscape where bots dominate the platform and humans desperately try to find each other amidst the AI-generated noise.
+SakuraSNS is a satirical simulation of a future social network overrun by bots, where the few remaining humans must navigate a platform teeming with AI-generated content. Inspired by the Japanese term "サクラ" (sakura), meaning fake customers or shills used to simulate popularity, this project reflects on the blurred lines between genuine interaction and artificial influence in modern digital spaces. Players take on the role of either elusive humans trying to connect or cunning bot-creators vying to fool others — all in a gamified battle for authenticity.
 
 ## The Concept
 
