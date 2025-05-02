@@ -39,7 +39,7 @@ In a world where social networks are increasingly dominated by AI-generated cont
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/SakuraSNSLocal.git
+git clone https://github.com/Shingo8843/SakuraSNSLocal.git
 cd SakuraSNSLocal
 ```
 
